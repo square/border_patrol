@@ -1,0 +1,4 @@
+--colour
+--format Spec::Runner::Formatter::CompactProgressBarFormatter
+--loadby mtime
+--backtrace
