@@ -1,6 +1,6 @@
 require 'spec_helper'
 
- describe BorderPatrol::Polygon do
+describe BorderPatrol::Polygon do
   describe "==" do
     it "is true if polygons are congruent" do
       points = [BorderPatrol::Point.new(1, 2), BorderPatrol::Point.new(3, 4), BorderPatrol::Point.new(0, 0)]
@@ -16,9 +16,9 @@ require 'spec_helper'
     end
 
     it "cares about order of points" do
-      points = [BorderPatrol::Point.new(1, 2), BorderPatrol::Point.new(3, 4), BorderPatrol::Point.new(5,5), BorderPatrol::Point.new(0, 0)]
+      points = [BorderPatrol::Point.new(1, 2), BorderPatrol::Point.new(3, 4), BorderPatrol::Point.new(5, 5), BorderPatrol::Point.new(0, 0)]
       poly1 = BorderPatrol::Polygon.new(points)
-      points = [BorderPatrol::Point.new(5,5), BorderPatrol::Point.new(1, 2), BorderPatrol::Point.new(0, 0), BorderPatrol::Point.new(3, 4)]
+      points = [BorderPatrol::Point.new(5, 5), BorderPatrol::Point.new(1, 2), BorderPatrol::Point.new(0, 0), BorderPatrol::Point.new(3, 4)]
       poly2 = BorderPatrol::Polygon.new(points)
 
       poly1.should_not == poly2
@@ -52,7 +52,7 @@ require 'spec_helper'
 
     it "can be instantiated with a arbitrary argument list" do
       points = [BorderPatrol::Point.new(1, 2), BorderPatrol::Point.new(3, 4), BorderPatrol::Point.new(0, 0)]
-      poly1 = BorderPatrol::Polygon.new(*points)
+      poly1 = BorderPatrol::Polygon.new(* points)
       poly2 = BorderPatrol::Polygon.new(points)
       poly1.should == poly2
     end
