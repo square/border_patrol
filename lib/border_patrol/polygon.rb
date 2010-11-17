@@ -1,18 +1,22 @@
+require 'forwardable'
 module BorderPatrol
-  class Polygon < Array
-    def initialize(* args)
+  class Polygon
+    extend Forwardable
+    def initialize(*args)
       args.flatten!
       args.uniq!
       raise InsufficientPointsToActuallyFormAPolygonError unless args.size > 2
-      super(args)
+      @points = Array.new(args)
     end
+
+    def_delegators :@points, :size, :each, :first, :include?, :[], :index
 
     def ==(other)
       # Do we have the right number of points?
       return false unless other.size == size
 
       # Are the points in the right order?
-      first, second = self.first(2)
+      first, second = first(2)
       index = other.index(first)
       return false unless index
       direction = (other[index-1] == second) ? -1 : 1
@@ -28,7 +32,7 @@ module BorderPatrol
 
     # Quick and dirty hash function
     def hash
-      inject(0) { |sum, point| sum += point.x + point.y }
+      @points.inject(0) { |sum, point| sum += point.x + point.y }
     end
 
     def contains_point?(point)
