@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
 
   s.require_paths = ["lib"]
-  root_files = %w(border_patrol.gemspec Rakefile README.markdown .gitignore Gemfile Gemfile.lock)
+  root_files = %w(border_patrol.gemspec Rakefile README.markdown .gitignore Gemfile)
   s.files = Dir['{lib,spec}/**/*'] + root_files
   s.test_files = Dir['spec/**/*']
 
