@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require 'bundler'
-
 Gem::Specification.new do |s|
   s.name = "border_patrol"
   s.version = File.read("lib/VERSION").strip
@@ -24,5 +22,9 @@ Gem::Specification.new do |s|
   s.files = Dir['{lib,spec}/**/*'] + root_files
   s.test_files = Dir['spec/**/*']
 
-  s.add_bundler_dependencies
+  s.add_dependency("nokogiri", "1.4.3.1")
+
+  s.add_development_dependency("rake")
+  s.add_development_dependency("rspec", "~> 1.3.0")
+  s.add_development_dependency("progressbar")
 end
