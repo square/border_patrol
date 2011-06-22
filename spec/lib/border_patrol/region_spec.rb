@@ -6,10 +6,7 @@ describe BorderPatrol::Region do
   end
 
   describe "#contains_point?" do
-    def point
-      
-    end
-    def polygon(start=0)
+    def create_polygon(start=0)
       BorderPatrol::Polygon.new(
         BorderPatrol::Point.new(start,start), 
         BorderPatrol::Point.new(start + 10, start), 
@@ -25,20 +22,20 @@ describe BorderPatrol::Region do
     
     it "returns true if any polygon contains the point" do
       point = BorderPatrol::Point.new(1,2)
-      @polygons = [polygon, polygon(30)]
+      @polygons = [create_polygon, create_polygon(30)]
 
       subject.contains_point?(point).should be_true
     end
 
     it "returns false if no polygons contain the point" do
       point = BorderPatrol::Point.new(-1,-2)
-      @polygons = [polygon, polygon(30)]
+      @polygons = [create_polygon, create_polygon(30)]
 
       subject.contains_point?(point).should be_false
     end
 
     it "transforms (x,y) coordinates passed in into a point" do
-      @polygons = [polygon, polygon(30)]
+      @polygons = [create_polygon, create_polygon(30)]
 
       subject.contains_point?(1,2).should be_true
     end
