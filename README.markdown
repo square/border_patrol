@@ -21,6 +21,15 @@ To test if a point is in the region you can either pass a class that responds to
 
 If you want to use your own point class, just define `x` and `y` as methods that correspond to `longitude` and `latitude`.
 
+## Performance
+It's definitely not going to beat a specialized system like PostGIS or SOLR, but it also doesn't have to go across the network to get results.
+We've been using it successfully in critical paths in production with zero impact.  Here's a benchmark checking 10,000 random points against the sample files included in the specs.
+
+                          user     system      total        real
+colorado region       0.240000   0.010000   0.250000 (  0.249663)
+multi polygon region  0.610000   0.020000   0.630000 (  0.631532)
+
+
 ## Pro Tip
 
 You can make KML files easily on Google Maps by clicking "My Maps", drawing shapes and saving the map.  Just copy the share link and add "&output=kml" to download the file.g
