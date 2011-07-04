@@ -25,9 +25,9 @@ If you want to use your own point class, just define `x` and `y` as methods that
 It's definitely not going to beat a specialized system like PostGIS or SOLR, but it also doesn't have to go across the network to get results.
 We've been using it successfully in critical paths in production with zero impact.  Here's a benchmark checking 10,000 random points against the sample files included in the specs.
 
-                          user     system      total        real
-colorado region       0.240000   0.010000   0.250000 (  0.249663)
-multi polygon region  0.610000   0.020000   0.630000 (  0.631532)
+                              user     system      total        real
+    colorado region       0.240000   0.010000   0.250000 (  0.249663)
+    multi polygon region  0.610000   0.020000   0.630000 (  0.631532)
 
 
 ## Pro Tip
