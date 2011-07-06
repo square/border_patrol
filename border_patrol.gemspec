@@ -1,8 +1,11 @@
 # encoding: utf-8
 
+$:.push File.expand_path("../lib", __FILE__)
+require 'border_patrol/version'
+
 Gem::Specification.new do |s|
   s.name = "border_patrol"
-  s.version = File.read("lib/VERSION").strip
+  s.version = BorderPatrol::VERSION
   s.authors = ["Zach Brock", "Matt Wilson"]
   s.email = "eng@squareup.com"
   s.date = "2010-10-20"

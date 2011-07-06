@@ -24,5 +24,6 @@ end
 
 require 'set'
 require 'nokogiri'
+require 'border_patrol/version'
 require 'border_patrol/polygon'
 require 'border_patrol/region'
