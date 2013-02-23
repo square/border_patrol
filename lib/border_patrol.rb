@@ -4,7 +4,8 @@ module BorderPatrol
 
   def self.parse_kml(string)
     doc = Nokogiri::XML(string)
-    polygons = doc.xpath('//kml:Polygon', 'kml' => 'http://earth.google.com/kml/2.2').map do |polygon_kml|
+
+    polygons = doc.search('Polygon').map do |polygon_kml|
       parse_kml_polygon_data(polygon_kml.to_s)
     end
     BorderPatrol::Region.new(polygons)
