@@ -13,7 +13,7 @@ module BorderPatrol
   private
   def self.parse_kml_polygon_data(string)
     doc = Nokogiri::XML(string)
-    coordinates = doc.xpath("//coordinates").text.strip.split("\n")
+    coordinates = doc.xpath("//coordinates").text.strip.split(/\s+/)
     points = coordinates.map do |coord|
       x, y, z = coord.strip.split(',')
       BorderPatrol::Point.new(x.to_f, y.to_f)

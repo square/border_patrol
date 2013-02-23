@@ -28,8 +28,7 @@ describe BorderPatrol do
              <tessellate>1</tessellate>
              <coordinates>
                -10,25,0.000000
-               -1,30,0.000000
-               10,1,0.000000
+               -1,30,0.000000 10,1,0.000000
                0,-5,000000
                -10,25,0.000000
               </coordinates>
