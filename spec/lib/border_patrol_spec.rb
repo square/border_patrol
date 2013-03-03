@@ -1,9 +1,11 @@
 require 'spec_helper'
 
 describe BorderPatrol do
+  Support_Folder = Bundler.root + 'spec/support'
+
   describe ".parse_kml" do
     it "returns a BorderPatrol::Region containing a BorderPatrol::Polygon for each polygon in the KML file" do
-      kml_data = File.read("#{File.dirname(__FILE__)}/../support/multi-polygon-test.kml")
+      kml_data = File.read(Support_Folder + "multi-polygon-test.kml")
       region = BorderPatrol.parse_kml(kml_data)
       region.length.should == 3
       region.each {|p| p.should be_a BorderPatrol::Polygon}
@@ -11,9 +13,18 @@ describe BorderPatrol do
 
     context "when there is only one polygon" do
       it "returns a region containing a single polygon" do
-        kml_data = File.read("#{File.dirname(__FILE__)}/../support/colorado-test.kml")
+        kml_data = File.read(Support_Folder + "colorado-test.kml")
         region = BorderPatrol.parse_kml(kml_data)
         region.length.should == 1
+        region.each {|p| p.should be_a BorderPatrol::Polygon}
+      end
+    end
+
+    context "xmlns attributes" do
+      it "should not care about the xmlns of the <kml> tag" do
+        kml_data = File.read(Support_Folder + "elgin-opengis-ns-test.kml")
+        region = BorderPatrol.parse_kml(kml_data)
+        region.length.should == 7
         region.each {|p| p.should be_a BorderPatrol::Polygon}
       end
     end
@@ -28,9 +39,8 @@ describe BorderPatrol do
              <tessellate>1</tessellate>
              <coordinates>
                -10,25,0.000000
-               -1,30,0.000000
-               10,1,0.000000
-               0, -5,000000
+               -1,30,0.000000 10,1,0.000000
+               0,-5,000000
                -10,25,0.000000
               </coordinates>
             </LinearRing>
