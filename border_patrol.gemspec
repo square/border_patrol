@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.name = "border_patrol"
   s.version = BorderPatrol::VERSION
   s.authors = ["Zach Brock", "Matt Wilson"]
-  s.email = "eng@squareup.com"
-  s.date = "2011-07-06"
-  s.description = "Lets you import a KML file and then check if points are inside or outside region polygons defined by the file."
+  s.email = "github@squareup.com"
+  s.date = "2013-03-05"
+  s.description = "Check if points are inside or outside the region polygons in an imported KML file."
   s.summary = "Import and query KML regions"
   s.homepage = "http://github.com/square/border_patrol"
 
