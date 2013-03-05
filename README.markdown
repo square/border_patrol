@@ -47,3 +47,10 @@ Polygons across the international date line don't work.
 http://jakescruggs.blogspot.com/2009/07/point-inside-polygon-in-ruby.html for evaluating the algorithm.
 
 http://github.com/nofxx/georuby/ for providing the bounding box code.
+
+## Contributing
+
+Fork and patch! Before any changes are merged to master, we need you to sign an
+[Individual Contributor
+Agreement](https://spreadsheets.google.com/a/squareup.com/spreadsheet/viewform?formkey=dDViT2xzUHAwRkI3X3k5Z0lQM091OGc6MQ&ndplr=1)
+(Google Form).
