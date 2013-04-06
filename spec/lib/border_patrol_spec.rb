@@ -51,6 +51,84 @@ describe BorderPatrol do
       polygon.should == BorderPatrol::Polygon.new(BorderPatrol::Point.new(-10, 25), BorderPatrol::Point.new(-1, 30), BorderPatrol::Point.new(10, 1), BorderPatrol::Point.new(0, -5))
     end
   end
+  
+  describe '.placemark_name_for_polygon' do
+    it 'returns the name of the placemark when Placemark is the parent node' do
+      kml_data = File.read(Support_Folder + "colorado-test.kml")
+      doc = Nokogiri::XML(kml_data)
+      polygon_node = doc.search('Polygon').first
+      
+      placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
+      placemark_name.should == "Shape 1"
+    end
+    
+    it 'returns the name of the placemark when MultiGeometry is the parent node' do
+      kml_data = File.read(Support_Folder + "elgin-opengis-ns-test.kml")
+      doc = Nokogiri::XML(kml_data)
+      polygon_node = doc.search('Polygon').first
+      
+      placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
+      placemark_name.should == "Elgin"
+    end
+    
+    it 'returns nil when there is no Placemark' do
+      kml = <<-EOM
+      <MultiGeometry>
+        <description><![CDATA[]]></description>
+        <styleUrl>#style1</styleUrl>
+        <Polygon>
+          <outerBoundaryIs>
+            <LinearRing>
+              <tessellate>1</tessellate>
+              <coordinates>
+                -109.053040,41.002705,0.000000
+                -102.046509,41.006847,0.000000
+                -102.041016,36.991585,0.000000
+                -109.048920,36.997070,0.000000
+                -109.053040,41.002705,0.000000
+              </coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </MultiGeometry>
+      EOM
+      
+      doc = Nokogiri::XML(kml)
+      polygon_node = doc.search('Polygon').first
+      
+      placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
+      placemark_name.should be_nil
+    end
+    
+    it 'returns a blank string when there is no Placemark name' do
+      kml = <<-EOM
+      <Placemark>
+        <description><![CDATA[]]></description>
+        <styleUrl>#style1</styleUrl>
+        <Polygon>
+          <outerBoundaryIs>
+            <LinearRing>
+              <tessellate>1</tessellate>
+              <coordinates>
+                -109.053040,41.002705,0.000000
+                -102.046509,41.006847,0.000000
+                -102.041016,36.991585,0.000000
+                -109.048920,36.997070,0.000000
+                -109.053040,41.002705,0.000000
+              </coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </Placemark>
+      EOM
+      
+      doc = Nokogiri::XML(kml)
+      polygon_node = doc.search('Polygon').first
+      
+      placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
+      placemark_name.should == ""
+    end
+  end
 
   describe BorderPatrol::Point do
     describe "==" do

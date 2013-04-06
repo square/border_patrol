@@ -135,5 +135,33 @@ describe BorderPatrol::Polygon do
     end
 
   end
+  
+  describe "#with_placemark_name" do
+    before(:each) do
+      points = [BorderPatrol::Point.new(-10, 0), BorderPatrol::Point.new(10, 0), BorderPatrol::Point.new(0, 10)]
+      @polygon = BorderPatrol::Polygon.new(points)
+    end
+    
+    it "adds a placemark name to a polygon" do
+      @polygon.placemark_name.should be_nil
+      
+      @polygon.with_placemark_name("Twin Peaks, San Francisco")
+      @polygon.placemark_name.should == "Twin Peaks, San Francisco"
+    end
+    
+    it "returns the Polygon object" do
+      @polygon.with_placemark_name("Silverlake, Los Angeles").should equal @polygon
+    end
+    
+    it "only allows the placemark name to be set once" do
+      @polygon.placemark_name.should be_nil
+      
+      @polygon.with_placemark_name("Santa Clara, California")
+      @polygon.placemark_name.should == "Santa Clara, California"
+      
+      @polygon.with_placemark_name("Santa Cruz, California")
+      @polygon.placemark_name.should == "Santa Clara, California"
+    end
+  end
 end
 
