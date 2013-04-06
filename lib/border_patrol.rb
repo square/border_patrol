@@ -24,14 +24,12 @@ module BorderPatrol
   end
   
   def self.placemark_name_for_polygon(p)
-    parent = p.parent
-    
     # A polygon can be contained by a MultiGeometry or Placemark
-    if parent.name == "MultiGeometry" && parent.parent.name == "Placemark"
-      parent = parent.parent
-    end
+    parent = p.parent
+    parent = parent.parent if parent.name == "MultiGeometry"
     
     return nil unless parent.name == "Placemark"
+    
     parent.search("name").text
   end
 end
