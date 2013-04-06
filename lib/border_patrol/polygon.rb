@@ -1,6 +1,7 @@
 require 'forwardable'
 module BorderPatrol
   class Polygon
+    attr_reader :placemark_name
     extend Forwardable
     def initialize(*args)
       args.flatten!
@@ -10,6 +11,11 @@ module BorderPatrol
     end
 
     def_delegators :@points, :size, :each, :first, :include?, :[], :index
+    
+    def with_placemark_name(placemark)
+      @placemark_name ||= placemark
+      self
+    end
 
     def ==(other)
       # Do we have the right number of points?

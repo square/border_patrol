@@ -6,20 +6,33 @@ module BorderPatrol
     doc = Nokogiri::XML(string)
 
     polygons = doc.search('Polygon').map do |polygon_kml|
-      parse_kml_polygon_data(polygon_kml.to_s)
+      placemark_name = placemark_name_for_polygon(polygon_kml)
+      parse_kml_polygon_data(polygon_kml.to_s,placemark_name)
     end
     BorderPatrol::Region.new(polygons)
   end
 
   private
-  def self.parse_kml_polygon_data(string)
+  def self.parse_kml_polygon_data(string,name = nil)
     doc = Nokogiri::XML(string)
     coordinates = doc.xpath("//coordinates").text.strip.split(/\s+/)
     points = coordinates.map do |coord|
       x, y, z = coord.strip.split(',')
       BorderPatrol::Point.new(x.to_f, y.to_f)
     end
-    BorderPatrol::Polygon.new(points)
+    BorderPatrol::Polygon.new(points).with_placemark_name(name)
+  end
+  
+  def self.placemark_name_for_polygon(p)
+    parent = p.parent
+    
+    # A polygon can be contained by a MultiGeometry or Placemark
+    if parent.name == "MultiGeometry" && parent.parent.name == "Placemark"
+      parent = parent.parent
+    end
+    
+    return nil unless parent.name == "Placemark"
+    parent.search("name").text
   end
 end
 
