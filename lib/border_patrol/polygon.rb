@@ -53,6 +53,18 @@ module BorderPatrol
       return c
     end
 
+    def cross_intl_date_line?
+      i = -1
+      j = self.size - 1
+      while (i += 1) < self.size
+        if ((self[i].x - self[j].x).abs > 180)
+          return true
+        end
+        j = i
+      end
+      return false
+    end
+
     def inside_bounding_box?(point)
       bb_point_1, bb_point_2 = bounding_box
       max_x = [bb_point_1.x, bb_point_2.x].max
