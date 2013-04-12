@@ -66,5 +66,19 @@ describe BorderPatrol do
         BorderPatrol::Point.new(1,3).should_not == BorderPatrol::Point.new(1.0,2)
       end
     end
+
+    describe "#rechart!" do
+      it "sends x=-1 to x=179" do
+        point = BorderPatrol::Point.new(-1,27)
+        point.rechart!
+        point.should == BorderPatrol::Point.new(179,27)
+      end
+
+      it "sends x=1 to x=-179" do
+        point = BorderPatrol::Point.new(1,27)
+        point.rechart!
+        point.should == BorderPatrol::Point.new(-179,27)
+      end
+    end
   end
 end
