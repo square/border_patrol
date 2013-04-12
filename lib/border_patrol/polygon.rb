@@ -36,7 +36,7 @@ module BorderPatrol
     end
 
     def contains_point?(point)
-      if (cross_intl_date_line?)
+      if cross_intl_date_line?
         @points.each{|p| p.rechart!}
         point.rechart!
       end
@@ -62,7 +62,7 @@ module BorderPatrol
       i = -1
       j = self.size - 1
       while (i += 1) < self.size
-        if ((self[i].x - self[j].x).abs > 180)
+        if (self[i].x - self[j].x).abs > 180
           return true
         end
         j = i

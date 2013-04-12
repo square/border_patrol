@@ -8,7 +8,7 @@ module BorderPatrol
     # but points on either side of the Prime Meridian are far apart. Applying
     # #rechart! twice brings you back to the original coordinates
     def rechart!
-      if (self.x > 0)
+      if self.x > 0
         self.x -= 180
       else
         self.x += 180
