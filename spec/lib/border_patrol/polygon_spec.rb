@@ -135,5 +135,19 @@ describe BorderPatrol::Polygon do
     end
 
   end
+
+  describe "#cross_intl_date_line?" do
+    it "is false for a polygon not crossing the date line" do
+      points = [BorderPatrol::Point.new(-10, 0), BorderPatrol::Point.new(10, 0), BorderPatrol::Point.new(0, 10)]
+      polygon = BorderPatrol::Polygon.new(points)
+      polygon.cross_intl_date_line?.should be_false
+    end
+
+    it "is true for a polygon crossing the date line" do
+      points = [BorderPatrol::Point.new(-170, 0), BorderPatrol::Point.new(170, 0), BorderPatrol::Point.new(170, 10)]
+      polygon = BorderPatrol::Polygon.new(points)
+      polygon.cross_intl_date_line?.should be_true
+    end
+  end
 end
 
