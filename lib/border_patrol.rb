@@ -2,6 +2,16 @@ module BorderPatrol
   class InsufficientPointsToActuallyFormAPolygonError < ArgumentError; end
   class Point < Struct.new(:x, :y); end
 
+  class Point
+    def rechart!
+      if (self.x > 0)
+        self.x -= 180
+      else
+        self.x += 180
+      end
+    end
+  end
+
   def self.parse_kml(string)
     doc = Nokogiri::XML(string)
 
