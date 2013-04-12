@@ -114,6 +114,13 @@ describe BorderPatrol::Polygon do
       @polygon.contains_point?(BorderPatrol::Point.new(-10, -1)).should be_false
       @polygon.contains_point?(BorderPatrol::Point.new(-20, -20)).should be_false
     end
+
+    it "works for polygons crossing the International Date Line" do
+      points = [BorderPatrol::Point.new(-170, 0), BorderPatrol::Point.new(170, 0), BorderPatrol::Point.new(170, 10),BorderPatrol::Point.new(-170, 10)]
+      polygon = BorderPatrol::Polygon.new(points)
+      point = BorderPatrol::Point.new(179, 5)
+      polygon.contains_point?(point).should be_true
+    end
   end
 
   describe "#inside_bounding_box?" do
