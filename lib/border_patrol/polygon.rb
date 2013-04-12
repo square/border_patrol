@@ -3,13 +3,13 @@ module BorderPatrol
   class Polygon
     extend Forwardable
 
-    #If polygon crosses International Date Line, switch to new coordinate system
-    #and indicate this has taken place via @recharted
     def initialize(*args)
       args.flatten!
       args.uniq!
       raise InsufficientPointsToActuallyFormAPolygonError unless args.size > 2
       @points = Array.new(args)
+      #If polygon crosses International Date Line, switch to new coordinate
+      #system and indicate this has taken place via @recharted
       @recharted = initially_cross_intl_date_line?
       @points.each{|p| p.rechart!} if @recharted
     end

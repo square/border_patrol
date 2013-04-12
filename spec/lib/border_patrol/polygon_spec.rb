@@ -115,7 +115,7 @@ describe BorderPatrol::Polygon do
       @polygon.contains_point?(BorderPatrol::Point.new(-20, -20)).should be_false
     end
 
-    it "works for polygons crossing the International Date Line" do
+    it "works for a polygon crossing the International Date Line" do
       points = [BorderPatrol::Point.new(-170, 0), BorderPatrol::Point.new(170, 0), BorderPatrol::Point.new(170, 10),BorderPatrol::Point.new(-170, 10)]
       polygon = BorderPatrol::Polygon.new(points)
       point = BorderPatrol::Point.new(179, 5)
@@ -143,17 +143,17 @@ describe BorderPatrol::Polygon do
 
   end
 
-  describe "#cross_intl_date_line?" do
+  describe "@recharted" do
     it "is false for a polygon not crossing the date line" do
       points = [BorderPatrol::Point.new(-10, 0), BorderPatrol::Point.new(10, 0), BorderPatrol::Point.new(0, 10)]
       polygon = BorderPatrol::Polygon.new(points)
-      polygon.cross_intl_date_line?.should be_false
+      polygon.instance_variable_get(:@recharted).should be_false
     end
 
     it "is true for a polygon crossing the date line" do
       points = [BorderPatrol::Point.new(-170, 0), BorderPatrol::Point.new(170, 0), BorderPatrol::Point.new(170, 10)]
       polygon = BorderPatrol::Polygon.new(points)
-      polygon.cross_intl_date_line?.should be_true
+      polygon.instance_variable_get(:@recharted).should be_true
     end
   end
 end
