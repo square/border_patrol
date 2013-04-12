@@ -36,6 +36,11 @@ module BorderPatrol
     end
 
     def contains_point?(point)
+      if (cross_intl_date_line?)
+        @points.each{|p| p.rechart!}
+        point.rechart!
+      end
+
       return false unless inside_bounding_box?(point)
       c = false
       i = -1
