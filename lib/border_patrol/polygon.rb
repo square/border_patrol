@@ -2,11 +2,16 @@ require 'forwardable'
 module BorderPatrol
   class Polygon
     extend Forwardable
+
+    #If polygon crosses International Date Line, switch to new coordinate system
+    #and indicate this has taken place via @recharted
     def initialize(*args)
       args.flatten!
       args.uniq!
       raise InsufficientPointsToActuallyFormAPolygonError unless args.size > 2
       @points = Array.new(args)
+      @recharted = initially_cross_intl_date_line?
+      @points.each{|p| p.rechart!} if @recharted
     end
 
     def_delegators :@points, :size, :each, :first, :include?, :[], :index
@@ -35,11 +40,10 @@ module BorderPatrol
       @points.inject(0) { |sum, point| sum += point.x + point.y }
     end
 
-    def contains_point?(point)
-      if cross_intl_date_line?
-        @points.each{|p| p.rechart!}
-        point.rechart!
-      end
+    def contains_point?(original_point)
+      point = original_point.clone
+      #Use new coordinate system if polygon is using it
+      point.rechart! if @recharted
 
       return false unless inside_bounding_box?(point)
       c = false
@@ -56,18 +60,6 @@ module BorderPatrol
         j = i
       end
       return c
-    end
-
-    def cross_intl_date_line?
-      i = -1
-      j = self.size - 1
-      while (i += 1) < self.size
-        if (self[i].x - self[j].x).abs > 180
-          return true
-        end
-        j = i
-      end
-      return false
     end
 
     def inside_bounding_box?(point)
@@ -89,6 +81,19 @@ module BorderPatrol
         min_x = point.x if point.x < min_x
       end
       [Point.new(min_x, max_y), Point.new(max_x, min_y)]
+    end
+
+    private
+    def initially_cross_intl_date_line?
+      i = -1
+      j = self.size - 1
+      while (i += 1) < self.size
+        if (self[i].x - self[j].x).abs > 180
+          return true
+        end
+        j = i
+      end
+      return false
     end
   end
 end
