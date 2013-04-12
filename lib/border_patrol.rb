@@ -3,6 +3,10 @@ module BorderPatrol
   class Point < Struct.new(:x, :y); end
 
   class Point
+    # Redefines the coordinates of the point. In the new coordinate system,
+    # points on either side of the International Date Line are close together,
+    # but points on either side of the Prime Meridian are far apart. Applying
+    # #rechart! twice brings you back to the original coordinates
     def rechart!
       if (self.x > 0)
         self.x -= 180
