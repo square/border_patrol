@@ -30,7 +30,7 @@ module BorderPatrol
     [Point.new(min_x, max_y), Point.new(max_x, min_y)]
   end
 
-  def central_point(box)
+  def self.central_point(box)
     point1, point2 = box
 
     x = (point1.x + point2.x) / 2
