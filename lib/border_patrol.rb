@@ -1,3 +1,10 @@
+require 'set'
+require 'forwardable'
+require 'nokogiri'
+require 'border_patrol/version'
+require 'border_patrol/polygon'
+require 'border_patrol/region'
+
 module BorderPatrol
   class InsufficientPointsToActuallyFormAPolygonError < ArgumentError; end
   class Point < Struct.new(:x, :y); end
@@ -33,9 +40,3 @@ module BorderPatrol
     parent.search("name").text
   end
 end
-
-require 'set'
-require 'nokogiri'
-require 'border_patrol/version'
-require 'border_patrol/polygon'
-require 'border_patrol/region'
