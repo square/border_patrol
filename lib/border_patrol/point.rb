@@ -1,5 +1,7 @@
 module BorderPatrol
-  class Point < Struct.new(:x, :y)
+  Point = Struct.new(:x, :y) unless defined?(::BorderPatrol::Point)
+
+  class Point
     alias :latitude   :y
     alias :latitude=  :y=
     alias :lat        :y
