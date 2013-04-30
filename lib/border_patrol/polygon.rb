@@ -1,6 +1,6 @@
-require 'forwardable'
 module BorderPatrol
   class Polygon
+    attr_reader :placemark_name
     extend Forwardable
     def initialize(*args)
       args.flatten!
@@ -10,6 +10,11 @@ module BorderPatrol
     end
 
     def_delegators :@points, :size, :each, :first, :include?, :[], :index
+    
+    def with_placemark_name(placemark)
+      @placemark_name ||= placemark
+      self
+    end
 
     def ==(other)
       # Do we have the right number of points?
@@ -64,14 +69,11 @@ module BorderPatrol
     end
 
     def bounding_box
-      max_x, min_x, max_y, min_y = -Float::MAX, Float::MAX, -Float::MAX, Float::MAX
-      each do |point|
-        max_y = point.y if point.y > max_y
-        min_y = point.y if point.y < min_y
-        max_x = point.x if point.x > max_x
-        min_x = point.x if point.x < min_x
-      end
-      [Point.new(min_x, max_y), Point.new(max_x, min_y)]
+      BorderPatrol.bounding_box(self)
+    end
+
+    def central_point
+      BorderPatrol.central_point(bounding_box)
     end
   end
 end

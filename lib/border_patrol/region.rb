@@ -8,5 +8,21 @@ module BorderPatrol
       end
       any? { |polygon| polygon.contains_point?(point) }
     end
+
+    # The below are some general helper methods
+    def bounding_boxes
+      map(&:bounding_box)
+    end
+
+    def bounding_box
+      boxes = bounding_boxes
+      boxes.flatten!
+
+      BorderPatrol.bounding_box(boxes)
+    end
+
+    def central_point
+      BorderPatrol.central_point(bounding_box)
+    end
   end
 end
