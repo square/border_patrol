@@ -19,6 +19,16 @@ module BorderPatrol
     BorderPatrol::Region.new(polygons)
   end
 
+  def self.bounding_box(points)
+    max_x, min_x, max_y, min_y = -Float::MAX, Float::MAX, -Float::MAX, Float::MAX
+    points.each do |point|
+      max_y = point.y if point.y > max_y
+      min_y = point.y if point.y < min_y
+      max_x = point.x if point.x > max_x
+      min_x = point.x if point.x < min_x
+    end
+    [Point.new(min_x, max_y), Point.new(max_x, min_y)]
+  end
   private
   def self.parse_kml_polygon_data(string,name = nil)
     doc = Nokogiri::XML(string)

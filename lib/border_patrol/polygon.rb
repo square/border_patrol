@@ -1,4 +1,3 @@
-require 'forwardable'
 module BorderPatrol
   class Polygon
     attr_reader :placemark_name
@@ -70,14 +69,7 @@ module BorderPatrol
     end
 
     def bounding_box
-      max_x, min_x, max_y, min_y = -Float::MAX, Float::MAX, -Float::MAX, Float::MAX
-      each do |point|
-        max_y = point.y if point.y > max_y
-        min_y = point.y if point.y < min_y
-        max_x = point.x if point.x > max_x
-        min_x = point.x if point.x < min_x
-      end
-      [Point.new(min_x, max_y), Point.new(max_x, min_y)]
+      BorderPatrol.bounding_box(self)
     end
   end
 end
