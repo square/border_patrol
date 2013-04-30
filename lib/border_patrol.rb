@@ -2,12 +2,12 @@ require 'set'
 require 'forwardable'
 require 'nokogiri'
 require 'border_patrol/version'
+require 'border_patrol/point'
 require 'border_patrol/polygon'
 require 'border_patrol/region'
 
 module BorderPatrol
   class InsufficientPointsToActuallyFormAPolygonError < ArgumentError; end
-  class Point < Struct.new(:x, :y); end
 
   def self.parse_kml(string)
     doc = Nokogiri::XML(string)
