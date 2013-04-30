@@ -29,6 +29,16 @@ module BorderPatrol
     end
     [Point.new(min_x, max_y), Point.new(max_x, min_y)]
   end
+
+  def central_point(box)
+    point1, point2 = box
+
+    x = (point1.x + point2.x) / 2
+    y = (point1.y + point2.y) / 2
+
+    Point.new(x, y)
+  end
+
   private
   def self.parse_kml_polygon_data(string,name = nil)
     doc = Nokogiri::XML(string)

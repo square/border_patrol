@@ -20,5 +20,9 @@ module BorderPatrol
 
       BorderPatrol.bounding_box(boxes)
     end
+
+    def central_point
+      BorderPatrol.central_point(bounding_box)
+    end
   end
 end
