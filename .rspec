@@ -1,2 +1,1 @@
---color
---backtrace
+--color --tty --format nested
