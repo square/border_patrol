@@ -17,11 +17,7 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- spec/*`.split("\n")
 
-  if RUBY_VERSION >= '1.9.2'
-    s.add_runtime_dependency('nokogiri')
-  else
-    s.add_runtime_dependency('nokogiri', '< 1.6.0')
-  end
+  s.add_runtime_dependency('nokogiri')
 
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec')
