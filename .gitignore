@@ -2,4 +2,4 @@
 #*
 *.sw*
 .bundle
-/Gemfile.lock
+Gemfile.lock

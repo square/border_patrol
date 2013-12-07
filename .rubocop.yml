@@ -1,0 +1,16 @@
+Documentation:
+  Enabled: false
+
+HashSyntax:
+  EnforcedStyle: hash_rockets
+
+LineLength:
+  Enabled: false
+
+MethodLength:
+  Enabled: false
+
+SymbolName:
+  Enabled: false
+
+inherit_from: rubocop-todo.yml
