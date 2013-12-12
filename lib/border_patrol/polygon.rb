@@ -10,7 +10,7 @@ module BorderPatrol
     end
 
     def_delegators :@points, :size, :each, :first, :include?, :[], :index
-    
+
     def with_placemark_name(placemark)
       @placemark_name ||= placemark
       self

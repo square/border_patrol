@@ -2,32 +2,33 @@ module BorderPatrol
   Point = Struct.new(:x, :y) unless defined?(::BorderPatrol::Point)
 
   class Point
-    alias :latitude   :y
-    alias :latitude=  :y=
-    alias :lat        :y
-    alias :lat=       :y=
+    alias_method :latitude,   :y
+    alias_method :latitude=,  :y=
+    alias_method :lat,        :y
+    alias_method :lat=,       :y=
 
-    alias :longitude  :x
-    alias :longitude= :x=
-    alias :lng        :x
-    alias :lng=       :x=
-    alias :lon        :x
-    alias :lon=       :x=
+    alias_method :longitude,  :x
+    alias_method :longitude=, :x=
+    alias_method :lng,        :x
+    alias_method :lng=,       :x=
+    alias_method :lon,        :x
+    alias_method :lon=,       :x=
 
     # Lots of Map APIs want the coordinates in lat-lng order
     def latlng
       [lat, lon]
     end
-    alias :coords :latlng
+    alias_method :coords, :latlng
 
     def inspect
-      self.class.inspect_string % self.latlng
+      self.class.inspect_string % latlng
     end
 
     protected
+
     # IE: #<BorderPatrol::Point(lat, lng) = (-25.363882, 131.044922)>
     def self.inspect_string
-      @inspect_string ||= "#<#{self.name}(lat, lng) = (%p, %p)>"
+      @inspect_string ||= "#<#{name}(lat, lng) = (%p, %p)>"
     end
   end
 end

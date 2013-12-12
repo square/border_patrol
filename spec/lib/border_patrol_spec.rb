@@ -51,26 +51,26 @@ describe BorderPatrol do
       polygon.should eq(BorderPatrol::Polygon.new(BorderPatrol::Point.new(-10, 25), BorderPatrol::Point.new(-1, 30), BorderPatrol::Point.new(10, 1), BorderPatrol::Point.new(0, -5)))
     end
   end
-  
+
   describe '.placemark_name_for_polygon' do
     it 'returns the name of the placemark when Placemark is the parent node' do
-      kml_data = File.read(Support_Folder + "colorado-test.kml")
+      kml_data = File.read(Support_Folder + 'colorado-test.kml')
       doc = Nokogiri::XML(kml_data)
       polygon_node = doc.search('Polygon').first
-      
+
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
       placemark_name.should == "Shape 1"
     end
-    
+
     it 'returns the name of the placemark when MultiGeometry is the parent node' do
-      kml_data = File.read(Support_Folder + "elgin-opengis-ns-test.kml")
+      kml_data = File.read(Support_Folder + 'elgin-opengis-ns-test.kml')
       doc = Nokogiri::XML(kml_data)
       polygon_node = doc.search('Polygon').first
-      
+
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
       placemark_name.should == "Elgin"
     end
-    
+
     it 'returns nil when there is no Placemark' do
       kml = <<-EOM
       <MultiGeometry>
@@ -92,14 +92,14 @@ describe BorderPatrol do
         </Polygon>
       </MultiGeometry>
       EOM
-      
+
       doc = Nokogiri::XML(kml)
       polygon_node = doc.search('Polygon').first
-      
+
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
       placemark_name.should be_nil
     end
-    
+
     it 'returns a blank string when there is no Placemark name' do
       kml = <<-EOM
       <Placemark>
@@ -121,10 +121,10 @@ describe BorderPatrol do
         </Polygon>
       </Placemark>
       EOM
-      
+
       doc = Nokogiri::XML(kml)
       polygon_node = doc.search('Polygon').first
-      
+
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
       placemark_name.should == ""
     end
