@@ -7,16 +7,16 @@ describe BorderPatrol do
     it 'returns a BorderPatrol::Region containing a BorderPatrol::Polygon for each polygon in the KML file' do
       kml_data = File.read(Support_Folder + 'multi-polygon-test.kml')
       region = BorderPatrol.parse_kml(kml_data)
-      region.length.should eq(3)
-      region.each { |p| p.should be_a BorderPatrol::Polygon }
+      expect(region.length).to eq(3)
+      region.each { |p| expect(p).to be_a BorderPatrol::Polygon }
     end
 
     context 'when there is only one polygon' do
       it 'returns a region containing a single polygon' do
         kml_data = File.read(Support_Folder + 'colorado-test.kml')
         region = BorderPatrol.parse_kml(kml_data)
-        region.length.should eq(1)
-        region.each { |p| p.should be_a BorderPatrol::Polygon }
+        expect(region.length).to eq(1)
+        region.each { |p| expect(p).to be_a BorderPatrol::Polygon }
       end
     end
 
@@ -24,8 +24,8 @@ describe BorderPatrol do
       it 'should not care about the xmlns of the <kml> tag' do
         kml_data = File.read(Support_Folder + 'elgin-opengis-ns-test.kml')
         region = BorderPatrol.parse_kml(kml_data)
-        region.length.should eq(7)
-        region.each { |p| p.should be_a BorderPatrol::Polygon }
+        expect(region.length).to eq(7)
+        region.each { |p| expect(p).to be_a BorderPatrol::Polygon }
       end
     end
   end
@@ -48,7 +48,7 @@ describe BorderPatrol do
         </Polygon>
       EOM
       polygon = BorderPatrol.parse_kml_polygon_data(kml)
-      polygon.should eq(BorderPatrol::Polygon.new(BorderPatrol::Point.new(-10, 25), BorderPatrol::Point.new(-1, 30), BorderPatrol::Point.new(10, 1), BorderPatrol::Point.new(0, -5)))
+      expect(polygon).to eq(BorderPatrol::Polygon.new(BorderPatrol::Point.new(-10, 25), BorderPatrol::Point.new(-1, 30), BorderPatrol::Point.new(10, 1), BorderPatrol::Point.new(0, -5)))
     end
   end
 
@@ -59,7 +59,7 @@ describe BorderPatrol do
       polygon_node = doc.search('Polygon').first
 
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
-      placemark_name.should == "Shape 1"
+      expect(placemark_name).to eq("Shape 1")
     end
 
     it 'returns the name of the placemark when MultiGeometry is the parent node' do
@@ -68,7 +68,7 @@ describe BorderPatrol do
       polygon_node = doc.search('Polygon').first
 
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
-      placemark_name.should == "Elgin"
+      expect(placemark_name).to eq("Elgin")
     end
 
     it 'returns nil when there is no Placemark' do
@@ -97,7 +97,7 @@ describe BorderPatrol do
       polygon_node = doc.search('Polygon').first
 
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
-      placemark_name.should be_nil
+      expect(placemark_name).to be_nil
     end
 
     it 'returns a blank string when there is no Placemark name' do
@@ -126,22 +126,22 @@ describe BorderPatrol do
       polygon_node = doc.search('Polygon').first
 
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
-      placemark_name.should == ""
+      expect(placemark_name).to eq("")
     end
   end
 
   describe BorderPatrol::Point do
     describe '==' do
       it 'is true if both points contain the same values' do
-        BorderPatrol::Point.new(1, 2).should eq(BorderPatrol::Point.new(1, 2))
+        expect(BorderPatrol::Point.new(1, 2)).to eq(BorderPatrol::Point.new(1, 2))
       end
 
       it 'is true if one point contains floats and one contains integers' do
-        BorderPatrol::Point.new(1, 2.0).should eq(BorderPatrol::Point.new(1.0, 2))
+        expect(BorderPatrol::Point.new(1, 2.0)).to eq(BorderPatrol::Point.new(1.0, 2))
       end
 
       it 'is false if the points contain different values' do
-        BorderPatrol::Point.new(1, 3).should_not eq(BorderPatrol::Point.new(1.0, 2))
+        expect(BorderPatrol::Point.new(1, 3)).not_to eq(BorderPatrol::Point.new(1.0, 2))
       end
     end
   end
