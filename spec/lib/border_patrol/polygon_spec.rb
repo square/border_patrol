@@ -136,24 +136,24 @@ describe BorderPatrol::Polygon do
 
   end
 
-  describe "#with_placemark_name" do
+  describe '#with_placemark_name' do
     before(:each) do
       points = [BorderPatrol::Point.new(-10, 0), BorderPatrol::Point.new(10, 0), BorderPatrol::Point.new(0, 10)]
       @polygon = BorderPatrol::Polygon.new(points)
     end
 
-    it "adds a placemark name to a polygon" do
+    it 'adds a placemark name to a polygon' do
       expect(@polygon.placemark_name).to be_nil
 
       @polygon.with_placemark_name('Twin Peaks, San Francisco')
       expect(@polygon.placemark_name).to eq('Twin Peaks, San Francisco')
     end
 
-    it "returns the Polygon object" do
+    it 'returns the Polygon object' do
       expect(@polygon.with_placemark_name('Silverlake, Los Angeles')).to equal @polygon
     end
 
-    it "only allows the placemark name to be set once" do
+    it 'only allows the placemark name to be set once' do
       expect(@polygon.placemark_name).to be_nil
 
       @polygon.with_placemark_name('Santa Clara, California')

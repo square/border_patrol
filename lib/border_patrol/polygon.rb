@@ -29,7 +29,7 @@ module BorderPatrol
       # i.e. [point1, point2, point3] is the same as [point2, point3, point1] is the same as [point3, point2, point1]
       each do |i|
         return false unless i == other[index]
-        index = index + direction
+        index += direction
         index = 0 if index == size
       end
       true

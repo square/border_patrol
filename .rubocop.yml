@@ -10,16 +10,7 @@ LineLength:
 MethodLength:
   Enabled: false
 
-SymbolName:
-  Enabled: false
-
 Encoding:
-  Enabled: false
-
-StringLiterals:
-  Enabled: false
-
-Void:
   Enabled: false
 
 inherit_from: rubocop-todo.yml

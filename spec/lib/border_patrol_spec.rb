@@ -59,7 +59,7 @@ describe BorderPatrol do
       polygon_node = doc.search('Polygon').first
 
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
-      expect(placemark_name).to eq("Shape 1")
+      expect(placemark_name).to eq('Shape 1')
     end
 
     it 'returns the name of the placemark when MultiGeometry is the parent node' do
@@ -68,7 +68,7 @@ describe BorderPatrol do
       polygon_node = doc.search('Polygon').first
 
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
-      expect(placemark_name).to eq("Elgin")
+      expect(placemark_name).to eq('Elgin')
     end
 
     it 'returns nil when there is no Placemark' do
@@ -126,7 +126,7 @@ describe BorderPatrol do
       polygon_node = doc.search('Polygon').first
 
       placemark_name = BorderPatrol.placemark_name_for_polygon(polygon_node)
-      expect(placemark_name).to eq("")
+      expect(placemark_name).to eq('')
     end
   end
 
