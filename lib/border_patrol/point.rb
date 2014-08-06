@@ -24,8 +24,6 @@ module BorderPatrol
       self.class.inspect_string % latlng
     end
 
-    protected
-
     # IE: #<BorderPatrol::Point(lat, lng) = (-25.363882, 131.044922)>
     def self.inspect_string
       @inspect_string ||= "#<#{name}(lat, lng) = (%p, %p)>"

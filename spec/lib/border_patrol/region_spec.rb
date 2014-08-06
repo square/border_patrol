@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe BorderPatrol::Region do
   it 'is a Set' do
-    BorderPatrol::Region.new.should be_a Set
+    expect(BorderPatrol::Region.new).to be_a Set
   end
 
   it 'stores the polygons provided at initialization' do
     region = BorderPatrol::Region.new([create_polygon, create_polygon(1), create_polygon(2)])
-    region.length.should == 3
+    expect(region.length).to eq(3)
   end
 
   describe '#contains_point?' do
@@ -22,20 +22,20 @@ describe BorderPatrol::Region do
       point = BorderPatrol::Point.new(1, 2)
       @polygons = [create_polygon, create_polygon(30)]
 
-      subject.contains_point?(point).should be_true
+      expect(subject.contains_point?(point)).to be true
     end
 
     it 'returns false if no polygons contain the point' do
       point = BorderPatrol::Point.new(-1, -2)
       @polygons = [create_polygon, create_polygon(30)]
 
-      subject.contains_point?(point).should be_false
+      expect(subject.contains_point?(point)).to be false
     end
 
     it 'transforms (x,y) coordinates passed in into a point' do
       @polygons = [create_polygon, create_polygon(30)]
 
-      subject.contains_point?(1, 2).should be_true
+      expect(subject.contains_point?(1, 2)).to be true
     end
   end
 
