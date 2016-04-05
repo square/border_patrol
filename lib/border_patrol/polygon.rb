@@ -1,15 +1,25 @@
 module BorderPatrol
   class Polygon
-    attr_reader :placemark_name
+    attr_reader :placemark_name, :inner_boundaries
     extend Forwardable
+
+    # Note @points is the outer boundary.
+    # A polygon may also have 1 or more inner boundaries.  In order to not change the ctor signature,
+    # the inner boundaries are not settable at construction.
     def initialize(*args)
       args.flatten!
       args.uniq!
       fail InsufficientPointsToActuallyFormAPolygonError unless args.size > 2
+      @inner_boundaries = []
       @points = Array.new(args)
     end
 
     def_delegators :@points, :size, :each, :first, :include?, :[], :index
+
+    def with_inner_boundaries(polygons)
+      @inner_boundaries = [polygons].flatten
+      self
+    end
 
     def with_placemark_name(placemark)
       @placemark_name ||= placemark
@@ -32,7 +42,8 @@ module BorderPatrol
         index += direction
         index = 0 if index == size
       end
-      true
+      return true if @inner_boundaries.empty?
+      @inner_boundaries == other.inner_boundaries
     end
 
     # Quick and dirty hash function
@@ -53,6 +64,11 @@ module BorderPatrol
           end
         end
         j = i
+      end
+      return c if c == false
+      # Check if excluded by any of the inner boundaries
+      @inner_boundaries.each do |inner_boundary|
+        return false if inner_boundary.contains_point?(point)
       end
       c
     end
