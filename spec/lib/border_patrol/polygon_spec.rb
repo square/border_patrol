@@ -39,6 +39,22 @@ describe BorderPatrol::Polygon do
       expect(poly2).not_to eq(poly1)
       expect(poly1).not_to eq(poly2)
     end
+
+    it 'is true if polygons and their inner boundaries are congruent' do
+      poly1 = BorderPatrol::Polygon.new(BorderPatrol::Point.new(0, 0), BorderPatrol::Point.new(3, 0), BorderPatrol::Point.new(3,3), BorderPatrol::Point.new(0,3))
+      poly1.with_inner_boundaries(BorderPatrol::Polygon.new(BorderPatrol::Point.new(1,1), BorderPatrol::Point.new(2, 1), BorderPatrol::Point.new(2, 2), BorderPatrol::Point.new(1,2)))
+      poly2 = BorderPatrol::Polygon.new(BorderPatrol::Point.new(0, 0), BorderPatrol::Point.new(3, 0), BorderPatrol::Point.new(3,3), BorderPatrol::Point.new(0,3))
+      poly2.with_inner_boundaries(BorderPatrol::Polygon.new(BorderPatrol::Point.new(1,1), BorderPatrol::Point.new(2, 1), BorderPatrol::Point.new(2, 2), BorderPatrol::Point.new(1,2)))
+      expect(poly1).to eq(poly2)
+    end
+
+    it 'is false if polygons inner boundaries are not congruent' do
+      poly1 = BorderPatrol::Polygon.new(BorderPatrol::Point.new(0, 0), BorderPatrol::Point.new(3, 0), BorderPatrol::Point.new(3,3), BorderPatrol::Point.new(0,3))
+      poly1.with_inner_boundaries(BorderPatrol::Polygon.new(BorderPatrol::Point.new(1,1), BorderPatrol::Point.new(2, 1), BorderPatrol::Point.new(2, 2), BorderPatrol::Point.new(1,2)))
+      poly2 = BorderPatrol::Polygon.new(BorderPatrol::Point.new(0, 0), BorderPatrol::Point.new(3, 0), BorderPatrol::Point.new(3,3), BorderPatrol::Point.new(0,3))
+      poly2.with_inner_boundaries(BorderPatrol::Polygon.new(BorderPatrol::Point.new(1.1,1.1), BorderPatrol::Point.new(2.1, 1.1), BorderPatrol::Point.new(2.1, 2.1), BorderPatrol::Point.new(1.1,2.1)))
+      expect(poly1).not_to eq(poly2)
+    end
   end
 
   describe '#initialize' do
@@ -86,33 +102,59 @@ describe BorderPatrol::Polygon do
   end
 
   describe '#contains_point?' do
-    before do
-      points = [BorderPatrol::Point.new(-10, 0), BorderPatrol::Point.new(10, 0), BorderPatrol::Point.new(0, 10)]
-      @polygon = BorderPatrol::Polygon.new(points)
+    context 'when there is no inner boundary' do
+      before do
+        points = [BorderPatrol::Point.new(-10, 0), BorderPatrol::Point.new(10, 0), BorderPatrol::Point.new(0, 10)]
+        @polygon = BorderPatrol::Polygon.new(points)
+      end
+
+      it 'is true if the point is in the polygon' do
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(0.5, 0.5))).to be true
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(0, 5))).to be true
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(-1, 3))).to be true
+      end
+
+      it 'does not include points on the lines with slopes between vertices' do
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(5.0, 5.0))).to be false
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(4.999999, 4.9999999))).to be true
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(0, 0))).to be true
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(0.000001, 0.000001))).to be true
+      end
+
+      it 'includes points at the vertices' do
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(-10, 0))).to be true
+      end
+
+      it 'is false if the point is outside of the polygon' do
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(9, 5))).to be false
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(-5, 8))).to be false
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(-10, -1))).to be false
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(-20, -20))).to be false
+      end
     end
 
-    it 'is true if the point is in the polygon' do
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(0.5, 0.5))).to be true
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(0, 5))).to be true
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(-1, 3))).to be true
-    end
+    context 'when there is an inner boundary' do
+      before do
+        @polygon = BorderPatrol::Polygon.new(BorderPatrol::Point.new(0, 0), BorderPatrol::Point.new(3, 0), BorderPatrol::Point.new(3,3), BorderPatrol::Point.new(0,3))
+        @polygon.with_inner_boundaries(BorderPatrol::Polygon.new(BorderPatrol::Point.new(1,1), BorderPatrol::Point.new(2, 1), BorderPatrol::Point.new(2, 2), BorderPatrol::Point.new(1,2)))
+      end
 
-    it 'does not include points on the lines with slopes between vertices' do
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(5.0, 5.0))).to be false
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(4.999999, 4.9999999))).to be true
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(0, 0))).to be true
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(0.000001, 0.000001))).to be true
-    end
+      it 'is true if the point is in the polygon but not in the inner boundary' do
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(0.5, 1.5))).to be true
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(0.5, 0.5))).to be true
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(1.5, 0.5))).to be true
+      end
 
-    it 'includes points at the vertices' do
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(-10, 0))).to be true
-    end
+      it 'is false if the point is outside the polygon' do
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(4, 0.5))).to be false
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(2.5, 4))).to be false
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(-1, 1.5))).to be false
+      end
 
-    it 'is false if the point is outside of the polygon' do
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(9, 5))).to be false
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(-5, 8))).to be false
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(-10, -1))).to be false
-      expect(@polygon.contains_point?(BorderPatrol::Point.new(-20, -20))).to be false
+      it 'is false if the point is inside the inner boundary' do
+        expect(@polygon.contains_point?(BorderPatrol::Point.new(1.5, 1.5))).to be false
+      end
+
     end
   end
 

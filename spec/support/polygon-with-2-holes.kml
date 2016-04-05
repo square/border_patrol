@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>polygon-with-2-holes</name>
+		<description><![CDATA[]]></description>
+		<Folder>
+			<name>polygon-with-2-holes</name>
+			<Placemark>
+				<name>Outer 1</name>
+				<styleUrl>#poly-000000-1-77-nodesc</styleUrl>
+				<Polygon>
+					<outerBoundaryIs>
+						<LinearRing>
+							<tessellate>1</tessellate>
+							<coordinates>-74.0041208,40.72948650000001,0.0 -74.00425,40.717924,0.0 -73.983135,40.71818400000001,0.0 -73.983393,40.729763,0.0 -74.0041208,40.72948650000001,0.0</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+					<innerBoundaryIs>
+						<LinearRing>
+							<tessellate>1</tessellate>
+							<coordinates>-73.999872,40.726186,0.0 -73.999872,40.721567,0.0 -73.9946795,40.72156710000001,0.0 -73.9947009,40.7262994,0.0 -73.999872,40.726186,0.0</coordinates>
+						</LinearRing>
+					</innerBoundaryIs>
+					<innerBoundaryIs>
+						<LinearRing>
+							<tessellate>1</tessellate>
+							<coordinates>-73.9924049,40.7263481,0.0 -73.9922547,40.721567099999994,0.0 -73.9868259,40.7215671,0.0 -73.9871049,40.72642940000001,0.0 -73.9924049,40.7263481,0.0</coordinates>
+						</LinearRing>
+					</innerBoundaryIs>
+				</Polygon>
+			</Placemark>
+		</Folder>
+		<Style id='poly-000000-1-77-nodesc-normal'>
+			<LineStyle>
+				<color>ff000000</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>4D000000</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+			<BalloonStyle>
+				<text><![CDATA[<h3>$[name]</h3>]]></text>
+			</BalloonStyle>
+		</Style>
+		<Style id='poly-000000-1-77-nodesc-highlight'>
+			<LineStyle>
+				<color>ff000000</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>4D000000</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+			<BalloonStyle>
+				<text><![CDATA[<h3>$[name]</h3>]]></text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='poly-000000-1-77-nodesc'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-000000-1-77-nodesc-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-000000-1-77-nodesc-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+	</Document>
+</kml>

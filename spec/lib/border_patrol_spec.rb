@@ -145,4 +145,69 @@ describe BorderPatrol do
       end
     end
   end
+
+
+  describe "KMLs with with holes" do
+    before(:each) do
+      @outside = [
+        BorderPatrol::Point.new(-74.0063, 40.72368),
+        BorderPatrol::Point.new(-74.00678, 40.71912),
+        BorderPatrol::Point.new(-74.00686, 40.71571),
+        BorderPatrol::Point.new(-74.00201, 40.71554),
+        BorderPatrol::Point.new(-73.99695, 40.71558),
+      ]
+
+      @in_the_polygon = [
+        BorderPatrol::Point.new(-74.00193, 40.72299),
+        BorderPatrol::Point.new(-74.00188, 40.71951),
+        BorderPatrol::Point.new(-73.99669, 40.71942),
+      ]
+
+      @in_the_hole = [
+        BorderPatrol::Point.new(-73.99618, 40.72338)
+      ]
+    end
+
+    it 'correctly identifies points inside and outside polygon which has 1 hole' do
+      region = BorderPatrol.parse_kml(File.read('spec/support/polygon-with-hole-test1.kml'))
+      @outside.each do |p|
+        expect(region.contains_point?(p)).to be false
+      end
+      @in_the_polygon.each do |p|
+        expect(region.contains_point?(p)).to be true
+      end
+      @in_the_hole.each do |p|
+        expect(region.contains_point?(p)).to be false
+      end
+    end
+
+    it 'correctly identifies points inside and outside polygon which has 2 holes' do
+      region = BorderPatrol.parse_kml(File.read('spec/support/polygon-with-2-holes.kml'))
+      @outside.each do |p|
+        expect(region.contains_point?(p)).to be false
+      end
+      @in_the_polygon.each do |p|
+        expect(region.contains_point?(p)).to be true
+      end
+      @in_the_hole.each do |p|
+        expect(region.contains_point?(p)).to be false
+      end
+    end
+
+    it 'correctly identifies points inside and outside polygon with real-world polygon' do
+      region = BorderPatrol.parse_kml(File.read('spec/support/45.kml'))
+      in1 = BorderPatrol::Point.new(-73.80001, 40.87513)
+      in_hole1 = BorderPatrol::Point.new(-73.79593, 40.87487)
+      outside1 = BorderPatrol::Point.new(-73.77881, 40.87393)
+      way_out1 = BorderPatrol::Point.new(-73.76242, 40.88194)
+      in_another_polygon = BorderPatrol::Point.new(-73.77134, 40.8712)
+      expect(region.contains_point?(in1)).to be true
+      expect(region.contains_point?(in_hole1)).to be false
+      expect(region.contains_point?(outside1)).to be false
+      expect(region.contains_point?(way_out1)).to be false
+      expect(region.contains_point?(in_another_polygon)).to be true
+    end
+
+  end
+
 end
